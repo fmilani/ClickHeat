@@ -6,7 +6,14 @@
  * @since 27/10/2006
 **/
 
+/* Remove the last space on this line (between * and /) to enable debugging. Don't forget to disable this when you're done! * /
+error_reporting(E_ALL);
+restore_error_handler();
+ini_set('display_errors', 1);
+
+/* Languages */
 $__languages = array('bg', 'cz', 'de', 'en', 'es', 'fr', 'hu', 'id', 'it', 'ja', 'nl', 'pl', 'pt', 'ro', 'ru', 'sr', 'tr', 'uk', 'zh');
+
 $__action = isset($_GET['action']) && $_GET['action'] !== '' ? $_GET['action'] : 'view';
 
 if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] !== '')
@@ -38,10 +45,10 @@ define('CLICKHEAT_ROOT', str_replace('\\', '/', dirname(__FILE__)).'/');
 define('CLICKHEAT_CONFIG', CLICKHEAT_ROOT.'config/config.php');
 define('IS_PIWIK_MODULE', false);
 
-/** Improve buffer usage and compression */
+/* Improve buffer usage and compression */
 if (function_exists('ob_start'))
 {
-	/** Check that Zlib is not enabled by default (value should be 1-9, else it will be an empty string) */
+	/* Check that Zlib is not enabled by default (value should be 1-9, else it will be an empty string) */
 	if (@ini_get('zlib.output_compression') || !function_exists('ob_gzhandler'))
 	{
 		ob_start();
@@ -52,7 +59,7 @@ if (function_exists('ob_start'))
 	}
 }
 
-/** Loading language according to browser's Accept-Language or cookie «language» */
+/* Loading language according to browser's Accept-Language or cookie «language» */
 if (isset($_GET['language']))
 {
 	$lang = $_GET['language'];
@@ -77,7 +84,7 @@ define('CLICKHEAT_LANGUAGE', $lang);
 unset($lang);
 include CLICKHEAT_ROOT.'languages/'.CLICKHEAT_LANGUAGE.'.php';
 
-/** If there's no config file, run check script */
+/* If there's no config file, run check script */
 if (!file_exists(CLICKHEAT_CONFIG))
 {
 	if ($__action !== 'check' && $__action !== 'config')
@@ -93,12 +100,12 @@ else
 	{
 		if ($_COOKIE['clickheat'] === $clickheatConf['adminLogin'].'||'.$clickheatConf['adminPass'])
 		{
-			/** Everything is fine, admin logged */
+			/* Everything is fine, admin logged */
 			define('CLICKHEAT_ADMIN', true);
 		}
 		elseif ($_COOKIE['clickheat'] === $clickheatConf['viewerLogin'].'||'.$clickheatConf['viewerPass'])
 		{
-			/** Viewer logged, force it to 'view' action if not view|generate|png */
+			/* Viewer logged, force it to 'view' action if not view|generate|png */
 			if ($__action !== 'generate' && $__action !== 'png' && $__action !== 'iframe' && $__action !== 'cleaner' && $__action !== 'logout')
 			{
 				$__action = 'view';
@@ -106,7 +113,7 @@ else
 		}
 		else
 		{
-			/** Not logged, send him to login form */
+			/* Not logged, send him to login form */
 			$__action = 'logout';
 		}
 	}
@@ -116,12 +123,12 @@ else
 		{
 			if ($_POST['login'] === $clickheatConf['adminLogin'] && md5($_POST['pass']) === $clickheatConf['adminPass'])
 			{
-				/** Set a session cookie */
+				/* Set a session cookie */
 				setcookie('clickheat', $clickheatConf['adminLogin'].'||'.$clickheatConf['adminPass'], 0, '/');
-				/** Redirect to index.php */
+				/* Redirect to index.php */
 				header('Content-Type: text/html');
 
-				/** Upgrade needed ? */
+				/* Upgrade needed ? */
 				include CLICKHEAT_ROOT.'version.php';
 				if (!isset($clickheatConf['version']) || $clickheatConf['version'] !== CLICKHEAT_VERSION)
 				{
@@ -131,7 +138,7 @@ else
 				{
 					$url = CLICKHEAT_INDEX_PATH.'action=view';
 				}
-				/** IIS removes cookies when sending a 301/302 header, so we need to do some crap (and yes, this HTML code is crap too) */
+				/* IIS removes cookies when sending a 301/302 header, so we need to do some crap (and yes, this HTML code is crap too) */
 				if (strpos($_SERVER['SERVER_SOFTWARE'], 'IIS'))
 				{
 					echo '<meta http-equiv="refresh" content="0;', $url, '" />';
@@ -145,11 +152,11 @@ else
 			}
 			elseif ($clickheatConf['viewerLogin'] !== '' && $_POST['login'] === $clickheatConf['viewerLogin'] && md5($_POST['pass']) === $clickheatConf['viewerPass'])
 			{
-				/** Set a session cookie */
+				/* Set a session cookie */
 				setcookie('clickheat', $clickheatConf['viewerLogin'].'||'.$clickheatConf['viewerPass'], 0, '/');
-				/** Redirect to index.php */
+				/* Redirect to index.php */
 				header('Content-Type: text/html');
-				/** IIS removes cookies when sending a 301/302 header, so we need to do some crap (and yes, this HTML code is crap too) */
+				/* IIS removes cookies when sending a 301/302 header, so we need to do some crap (and yes, this HTML code is crap too) */
 				if (strpos($_SERVER['SERVER_SOFTWARE'], 'IIS'))
 				{
 					echo '<meta http-equiv="refresh" content="0;', CLICKHEAT_INDEX_PATH, 'action=view" />';
@@ -170,8 +177,8 @@ if (!defined('CLICKHEAT_ADMIN'))
 	define('CLICKHEAT_ADMIN', false);
 }
 
-/** Specific definitions */
-$clickheatConf['__screenSizes'] = array(0 /** Must start with 0 */, 240, 640, 800, 1024, 1152, 1280, 1440, 1600, 1800);
+/* Specific definitions */
+$clickheatConf['__screenSizes'] = array(0 /* Must start with 0 */, 240, 640, 800, 1024, 1152, 1280, 1440, 1600, 1800);
 $clickheatConf['__browsersList'] = array('all' => '', 'msie' => 'Internet Explorer', 'firefox' => 'Firefox', 'chrome' => 'Chrome', 'safari' => 'Safari', 'opera' => 'Opera', 'unknown' => '');
 
 switch ($__action)
@@ -182,7 +189,7 @@ switch ($__action)
 			{
 				exit('Error');
 			}
-			/** No break here */
+			/* No break here */
 		}
 	case 'check':
 	case 'view':
@@ -250,7 +257,7 @@ switch ($__action)
 			{
 				$url = 'http://'.$_SERVER['SERVER_NAME'].'/'.ltrim($url, '/');
 			}
-			/** Improved security for PHP injection (PMV2.3b3 bug) */
+			/* Improved security for PHP injection (PMV2.3b3 bug) */
 			$url = parse_url(str_replace(array('<', '>'), array('', ''), $url));
 			$left = isset($_GET['left']) ? (int) $_GET['left'] : 0;
 			$center = isset($_GET['center']) ? (int) $_GET['center'] : 0;
@@ -283,7 +290,7 @@ switch ($__action)
 	case 'logout':
 		{
 			setcookie('clickheat', '', time() - 30 * 86400, '/');
-			/** IIS removes cookies when sending a 301/302 header, so we need to do some crap (and yes, this HTML code is crap too) */
+			/* IIS removes cookies when sending a 301/302 header, so we need to do some crap (and yes, this HTML code is crap too) */
 			if (strpos($_SERVER['SERVER_SOFTWARE'], 'IIS'))
 			{
 				echo '<meta http-equiv="refresh" content="0;', CLICKHEAT_INDEX_PATH, 'action=view" />';

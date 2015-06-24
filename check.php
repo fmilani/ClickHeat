@@ -29,7 +29,7 @@ foreach ($__languages as $lang)
 <?php
 /** Test if current path is writable for config.php : */
 $f = fopen(dirname(CLICKHEAT_CONFIG).'/temp.tmp', 'w');
-if ($f === false)
+if (!is_resource($f))
 {
 	$checks = false;
 	echo '<img src="'.CLICKHEAT_PATH.'images/ko.png" width="16" height="16" alt="KO" /></td><td>', LANG_CHECK_NOT_WRITABLE;

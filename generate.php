@@ -72,6 +72,7 @@ $heatmap = isset($_GET['heatmap']) && $_GET['heatmap'] === '1';
 $time = isset($_SERVER['REQUEST_TIME']) ? $_SERVER['REQUEST_TIME'] : time();
 $dateStamp = isset($_GET['date']) ? strtotime($_GET['date']) : $time;
 $range = isset($_GET['range']) && in_array($_GET['range'], array('d', 'w', 'm')) ? $_GET['range'] : 'd';
+
 $date = date('Y-m-d', $dateStamp);
 switch ($range)
 {

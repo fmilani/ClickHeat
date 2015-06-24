@@ -194,7 +194,7 @@ isJsOkay = '<?php echo CLICKHEAT_ADMIN === true ? '<a href="#" onclick="showJsCo
 jsAdminCookie = '<?php echo str_replace('\'', '\\\'', LANG_JAVASCRIPT_ADMIN_COOKIE) ?>';
 hideIframes = <?php echo $clickheatConf['hideIframes'] === true ? 'true' : 'false' ?>;
 hideFlashes = <?php echo $clickheatConf['hideFlashes'] === true ? 'true' : 'false' ?>;
-scriptPath = 'http://<?php echo $_SERVER['HTTP_HOST'].CLICKHEAT_PATH ?>';
+scriptPath = 'http<?php echo !empty($_SERVER['HTTPS']) ? 's' : '' ?>://<?php echo $_SERVER['SERVER_NAME'].CLICKHEAT_PATH ?>';
 scriptIndexPath = '<?php echo CLICKHEAT_INDEX_PATH ?>';
 lastDayOfMonth = <?php echo $__lastDayOfMonth ?>;
 currentDate = [<?php echo $__day, ',', $__month, ',', $__year, ',', $__day, ',', $__month, ',', $__year ?>];

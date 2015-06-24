@@ -98,21 +98,20 @@ Milieu&nbsp;x&nbsp;x&nbsp;x&nbsp;x&nbsp;x&nbsp;x&nbsp;x&nbsp;x&nbsp;x&nbsp;x&nbs
 <br />
 Fin
 <!-- Piwik -->
-<a href="http://piwik.org" title="Analytics software" onclick="window.open(this.href);return(false);">
-<script src="http://projects.labsmedia.com/piwik/piwik.js" type="text/javascript"></script>
 <script type="text/javascript">
-<!--
-piwik_action_name = '';
-piwik_idsite = 1;
-piwik_url = 'http://projects.labsmedia.com/piwik/piwik.php';
-piwik_log(piwik_action_name, piwik_idsite, piwik_url);
-//-->
-</script><object>
-<noscript><p>Analytics software <img src="http://projects.labsmedia.com/piwik/piwik.php" style="border:0" alt="piwik"/></p>
-</noscript></object></a>
-<!-- /Piwik -->
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://projects.labsmedia.com/piwik/" : "http://projects.labsmedia.com/piwik/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 2);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://projects.labsmedia.com/piwik/piwik.php?idsite=2" style="border:0" alt="" /></p></noscript>
+<!-- End Piwik Tag -->
+
 <script type="text/javascript" src="http://projects.labsmedia.com/piwik/plugins/ClickHeat/libs/js/clickheat.js"></script><noscript><p><a href="http://www.labsmedia.fr/index.html">Optimisation de site</a></p></noscript><script type="text/javascript"><!--
-clickHeatSite = 1;clickHeatGroup = 'group1';clickHeatServer = 'http://projects.labsmedia.com/piwik/plugins/ClickHeat/libs/click.php';initClickHeat(); //-->
+clickHeatSite = 2;clickHeatGroup = 'group2';clickHeatServer = 'http://projects.labsmedia.com/piwik/plugins/ClickHeat/libs/click.php';initClickHeat(); //-->
 </script>
 </div>
 </body>
