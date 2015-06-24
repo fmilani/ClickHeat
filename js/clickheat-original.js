@@ -86,7 +86,7 @@ function catchClickHeat(e)
 	clickTime,
 	now,
 	clickHeatImg,
-	params,
+	params = [],
 	sent		= false,
 	xmlhttp		= false;
 	/* Use a try{} to avoid showing errors to users */
@@ -164,7 +164,23 @@ function catchClickHeat(e)
 		{
 			clickHeatQuota = clickHeatQuota - 1;
 		}
-		params = 's=' + clickHeatSite + '&g=' + clickHeatGroup + '&x=' + x + '&y=' + y + '&w=' + w + '&b=' + clickHeatBrowser + '&c=' + c + '&random=' + Date();
+		var paramsObj = {
+			's': clickHeatSite,
+			'g': clickHeatGroup,
+			'h': clickHeatHash,
+			'x': x,
+			'y': y,
+			'w': w,
+			'b': clickHeatBrowser,
+			'c': c,
+			'random': Date()
+		};
+		for (k in paramsObj) {
+			if (paramsObj.hasOwnProperty(k) && paramsObj[k]) {
+				params.push(encodeURIComponent(k) + '=' + encodeURIComponent(paramsObj[k]));
+			}
+		}
+		params = params.join('&');
 		showClickHeatDebug('Ready to send click data...');
 		/* Local request (not starting with "http")? Try an ajax call */
 		if (clickHeatServer.indexOf('http') !== 0)
