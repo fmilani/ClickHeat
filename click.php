@@ -114,7 +114,14 @@ if (!is_resource($f))
 		if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] !== '')
 		{
 			$f = fopen($clickheatConf['logPath'].$final.'/url.txt', 'w');
-			fputs($f, str_replace('debugclickheat', '', $_SERVER['HTTP_REFERER']).'>0>0>0');
+			$url = $_SERVER['HTTP_REFERER'];
+			// tests if the location_hash parameter was received and appends it to the
+			// url (done so it can work with SPA's)
+			if (isset($_GET['location_hash']) && $_GET['location_hash'] !== '')
+			{
+				$url = $url.$_GET['location_hash'];
+			}
+			fputs($f, str_replace('debugclickheat', '', $url).'>0>0>0');
 			fclose($f);
 		}
 	}
