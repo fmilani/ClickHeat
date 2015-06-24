@@ -133,8 +133,15 @@ function catchClickHeat(e)
 		y = e.clientY;
 		w = clickHeatDocument.clientWidth || window.innerWidth;
 		h = clickHeatDocument.clientHeight || window.innerHeight;
-		scrollx = window.pageXOffset || clickHeatDocument.scrollLeft;
-		scrolly = window.pageYOffset || clickHeatDocument.scrollTop;
+		if (typeof calculateScroll === 'function') {
+			// allows the page being monitored to calculate the scroll
+			var calculatedScroll = calculateScroll();
+			scrollx = calculatedScroll.scrollx;
+			scrolly = calculatedScroll.scrolly;
+		} else {
+			scrollx = window.pageXOffset || clickHeatDocument.scrollLeft;
+			scrolly = window.pageYOffset || clickHeatDocument.scrollTop;
+		}
 		winw = Math.max(clickHeatDocument.scrollWidth, clickHeatDocument.offsetWidth, w);
 		winh = Math.max(clickHeatDocument.scrollHeight, clickHeatDocument.offsetHeight, h);
 
