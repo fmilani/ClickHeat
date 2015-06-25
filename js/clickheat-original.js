@@ -74,6 +74,17 @@ function showClickHeatDebug(str)
 	}
 }
 
+/* The page being monitored can override this function to calculate as it needs
+   (usefull for SPAs)*/
+function clickHeatScreenCalc() {
+	return {
+		screenWidth: clickHeatDocument.clientWidth || window.innerWidth,
+		screenHeight: clickHeatDocument.clientHeight || window.innerHeight,
+		scrollx: window.pageXOffset || clickHeatDocument.scrollLeft,
+		scrolly: window.pageYOffset || clickHeatDocument.scrollTop
+	};
+}
+
 /* Main function */
 function catchClickHeat(e)
 {
@@ -131,21 +142,13 @@ function catchClickHeat(e)
 		}
 		x = e.clientX;
 		y = e.clientY;
-		if (typeof clickHeatScreenCalc === 'function') {
-			// allows the page being monitored to calculate its scroll position
-			// and screen size. Must return an object in the form:
-			// {scrollx: Number, scrolly: Number, screenWidth: Number, screenHeight:Number}
-			var screenValues = clickHeatScreenCalc();
-			w = screenValues.screenWidth;
-			h = screenValues.screenHeight;
-			scrollx = screenValues.scrollx;
-			scrolly = screenValues.scrolly;
-		} else {
-			w = clickHeatDocument.clientWidth || window.innerWidth;
-			h = clickHeatDocument.clientHeight || window.innerHeight;
-			scrollx = window.pageXOffset || clickHeatDocument.scrollLeft;
-			scrolly = window.pageYOffset || clickHeatDocument.scrollTop;
-		}
+
+		var screenValues = clickHeatScreenCalc();
+		w = screenValues.screenWidth;
+		h = screenValues.screenHeight;
+		scrollx = screenValues.scrollx;
+		scrolly = screenValues.scrolly;
+
 		winw = Math.max(clickHeatDocument.scrollWidth, clickHeatDocument.offsetWidth, w);
 		winh = Math.max(clickHeatDocument.scrollHeight, clickHeatDocument.offsetHeight, h);
 
