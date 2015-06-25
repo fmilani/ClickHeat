@@ -131,14 +131,18 @@ function catchClickHeat(e)
 		}
 		x = e.clientX;
 		y = e.clientY;
-		w = clickHeatDocument.clientWidth || window.innerWidth;
-		h = clickHeatDocument.clientHeight || window.innerHeight;
-		if (typeof calculateScroll === 'function') {
-			// allows the page being monitored to calculate the scroll
-			var calculatedScroll = calculateScroll();
-			scrollx = calculatedScroll.scrollx;
-			scrolly = calculatedScroll.scrolly;
+		if (typeof clickHeatScreenCalc === 'function') {
+			// allows the page being monitored to calculate its scroll position
+			// and screen size. Must return an object in the form:
+			// {scrollx: Number, scrolly: Number, screenWidth: Number, screenHeight:Number}
+			var screenValues = clickHeatScreenCalc();
+			w = screenValues.screenWidth;
+			h = screenValues.screenHeight;
+			scrollx = screenValues.scrollx;
+			scrolly = screenValues.scrolly;
 		} else {
+			w = clickHeatDocument.clientWidth || window.innerWidth;
+			h = clickHeatDocument.clientHeight || window.innerHeight;
 			scrollx = window.pageXOffset || clickHeatDocument.scrollLeft;
 			scrolly = window.pageYOffset || clickHeatDocument.scrollTop;
 		}
